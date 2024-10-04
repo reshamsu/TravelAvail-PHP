@@ -2,6 +2,7 @@
 
 :root {
   --blue: #3058f7;
+  --dark-blue: #3652c6;
   --black: #333;
 }
 
@@ -42,15 +43,12 @@ p {
   border-radius: 24px;
 }
 
+.btn:hover {
+  background-color: var(--dark-blue);
+}
+
 .btn.btn-primary {
   background-color: var(--blue);
-  border: none;
-  /*background-image: linear-gradient(
-    to bottom right,
-    #7300ffd6,
-    #0000ff5c,
-    #7300ffd6
-  );*/
 }
 
 .menu {
@@ -73,12 +71,10 @@ img.logo {
 
 img.background {
   position: absolute;
-  width: 88%;
-  height: 66vh;
+  width: 100%;
+  height: 60vh;
   object-fit: cover;
-  margin: 0 86px;
   z-index: -1;
-  border-radius: 26px;
   background: rgba(255, 255, 255, 0.7);
 }
 
@@ -290,7 +286,7 @@ nav a i.tab:hover {
   top: 0;
   left: 0;
   z-index: 1;
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -355,7 +351,7 @@ nav a i.tab:hover {
   top: 0;
   left: 0;
   z-index: -6;
-  height: 90vh;
+  height: 100vh;
   width: 100%;
   object-fit: cover;
 }
@@ -366,7 +362,7 @@ nav a i.tab:hover {
   top: 0;
   left: 0;
   z-index: -1;
-  height: 90vh;
+  height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.6);
 }

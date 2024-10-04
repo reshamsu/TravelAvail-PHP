@@ -57,18 +57,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 13%;
-            background: #333;
+            padding: 12px 12%;
+            background: whitesmoke;
             border-radius: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
         }
 
         .form-group {
             margin: 4px;
-            background: #fff;
+            background: #eee;
             border-radius: 10px;
             padding: 10px 2%;
-            border: 3px solid #eef;
+            border: 2.4px solid #ddd;
         }
 
         nav a.btn.btn-light {
@@ -93,11 +92,11 @@
 
         <span class="navbar-text" style="display: flex; align-items: center; justify-content: end; padding: 0;">
             <a href="<?php echo base_url() . '/currency' ?>" class="btn btn-light" id="" style="margin-right: 6px; background: none; border: none">USD</a>
-            <a href="<?php echo base_url() . '/login/userlogin' ?>" class="btn btn-dark" id="loginButton">Sign in</a>
+            <a href="<?php echo base_url() . '/login/userlogin' ?>" class="btn btn-primary" id="loginButton">Sign in</a>
         </span>
     </header>
 
-    <div class="container" style="min-height: 64vh; display: flex; align-items: center; justify-content: end; flex-direction: column;">
+    <div class="container" style="min-height: 64vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
 
         <?php
         // Check if the 'text' parameter is set in the URL
@@ -122,7 +121,7 @@
             </div>
             <div class="form-group">
                 <label for="checkout_date"><i class="bi bi-calendar3"></i> Check-Out</label>
-                <input type="date" name="end_date"class="date" required><br>
+                <input type="date" name="end_date" class="date" required><br>
             </div>
             <div class="form-group">
                 <label for="rooms"><i class="bi bi-people-fill"></i> Rooms</label>
@@ -147,7 +146,7 @@
                 </select>
             </div>
 
-            <input type="submit" value="Search Hotels" class="btn btn-primary" style="padding: 9px 4%; margin-left: 10px;">
+            <input type="submit" value="Search Hotels" class="btn btn-primary" style="padding: 14px 4%; margin-left: 10px; border-radius: 14px; font-size: 16px;">
         </form>
     </div>
 
