@@ -41,7 +41,7 @@
 
 
             <?php if (isset($bookflight)) : ?>
-                <input type="text" name="id" value="<?php echo $bookflight; ?>">
+                <input type="text" name="id" value="<?php //echo $bookflight; ?>">
             <?php endif; ?>
 
             <?php if (isset($bookhotel)) : ?>
@@ -52,7 +52,7 @@
                 <input type="text" name="id" value="<?php echo $bookcarrental; ?>">
             <?php endif; ?>
 
-            <input type="text" name="search_type" value="<?php echo $search_type; ?>">
+            <input type="text" name="search_type" value="<?php //echo $search_type; ?>">
             <?php
             //  print_r($bookflight); 
 
@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col" style="margin-bottom: 18px;">
                         <label for="input" style="font-weight: 600;">Card number:</label>
-                        <input type="text" class="form-control" id='card_number' name='transaction_number' value='' placeholder="1234 5678 9012 3456" style='padding: 20px 4%' required>
+                        <input type="text" class="form-control" id='card_number' name='transaction_number' value='' placeholder="Eg: 1234 5678 9012 3456" style='padding: 20px 4%' required>
                     </div>
                 </div>
                 <div class=" row">

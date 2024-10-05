@@ -1,7 +1,7 @@
 <?php
 class Login extends CI_Controller
 {
-
+    // constructor loads nessasary libraries, helpers, and models
     public function __construct()
     {
         parent::__construct();
@@ -13,30 +13,34 @@ class Login extends CI_Controller
         $this->load->library("pagination");
     }
 
+    // default method that loads the home view
     public function index()
     {
-        $this->load->view('home');
+        $this->load->view('home'); // loads the home view
     }
-    // userlogin method
 
+    // userlogin method to handle user login and redirect based on session status
     public function userlogin()
     {
+        // retrieves flashdata for sucess and error messages
         $success = $this->session->flashdata('success');
         $error = $this->session->flashdata('error');
         $data = [];
         if (!empty($success)) {
-            $data['success'] = $success;
+            $data['success'] = $success; // adds success message to data array
         }
         if (!empty($error)) {
-            $data['error'] = $error;
+            $data['error'] = $error; // adds error message to data array
         }
+
+        // checks if user session exists and loads appropriate view
         if (isset($data['error']) || isset($data['success'])) {
             $this->load->view('login', $data);
         } else {
             if ($this->checkSessionExist()) {
-                $this->load->view('dashboard');
+                $this->load->view('dashboard'); // loads dashbord view if session exists
             } else {
-                $this->load->view('dashboard', $data);
+                $this->load->view('dashboard', $data); // else loads dashbaord view with data
             }
         }
     }
@@ -47,57 +51,71 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
+
+        // runs form validation checks
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('register');
+            $this->load->view('register'); // loads registration view if validation fails
         } else {
-            $current_date = date('Y-m-d');
+            $current_date = date('Y-m-d'); // obtains current date
             $data = array(
-                'id' => NULL,
+                'id' => NULL, // auto incremented ID
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'email' => $_POST['email'],
                 'password' => sha1($_POST['password']),
                 'created_date' =>  $current_date
             );
+
+            // calls model method to register user
             $result = $this->user_model->registerUser($data);
             if ($result) {
+                // registration was successful, redirects to login view with success message
                 $data = array(
                     'success' => 'User Registered Successfully'
                 );
                 $this->load->view('login', $data);
             } else {
+                // registration failed, user already exists
                 $data = array(
                     'error' => 'User Exist with this Email. Please try again'
                 );
-                $this->load->view('register', $data);
+                $this->load->view('register', $data); // loads registration view with error message
             }
         }
     }
 
+    // method to handle user login submission and session management
     public function loginSubmit()
     {
-        //validation checks
+        // form validation checks
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
+
+        // runs form validation
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('login');
         } else {
+
+            //prepare data values for login access
             $data = array(
                 'email' => $_POST['email'],
                 'password' => sha1($_POST['password']),
             );
+            // calls model method to check login credentials
             $result = $this->user_model->loginCheck($data);
             if ($result) {
-                // set session 
+                // obtain user data and set session 
                 $resutlUserData = $this->user_model->getUserData($data);
-                print_r($resutlUserData);
                 $session_user = array(
                     'id' => $resutlUserData[0]->id,
                     'login' => true,
                     'role' => $resutlUserData[0]->role
                 );
+
+                // defines user actions based on role
                 if ($resutlUserData[0]->role == 'Admin') {
                     $actions = array(
+                        // define previlages and roles for adminstrators
                         'dashboard' => [
                             'myprofile' => true,
                             'manageuser' => true,
@@ -152,6 +170,7 @@ class Login extends CI_Controller
                     );
                 } elseif ($resutlUserData[0]->role == 'User') {
                     $actions = array(
+                        // defines privilages and roles for users
                         'dashboard' => [
                             'myprofile' => true,
                             'manageuser' => false,
@@ -207,10 +226,12 @@ class Login extends CI_Controller
                     );
                 }
 
+                // set user session data
                 $this->session->set_userdata('userinfo', $session_user);
                 $this->session->set_userdata('routing', $actions);
-                redirect('/login/dashboard');
+                redirect('/login/dashboard'); // redirect to dashboard after successful login
             } else {
+                // login failed, set flashdata for error message and redirect to login page 
                 $this->session->set_flashdata('error', 'Email or password Invalid. Please Try again');
                 redirect('login/userlogin');
             }
@@ -341,36 +362,51 @@ class Login extends CI_Controller
 
     public function addnewUser()
     {
+        // Retrieve all users from the user model
         $result = $this->user_model->getAllUsers();
+
+        // If users are retrieved successfully, assign them to 'manageuser' for use in the view
         if ($result) {
             $data['manageuser'] = $result;
         }
+
+        // Set validation rules for user input fields
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
+
+        // Check if the form validation passes
         if ($this->form_validation->run() == FALSE) {
+            // If validation fails, reload the 'add_users' view with validation errors
             $this->load->view('add_users');
         } else {
-            $current_date = date('Y-m-d');
+            // If validation passes, prepare data for user registration
+            $current_date = date('Y-m-d'); // Get current date
             $data = array(
-                'id' => NULL,
+                'id' => NULL, // Auto-increment ID
                 'username' => $_POST['username'],
                 'first_name' => $_POST['first_name'],
                 'last_name' => $_POST['last_name'],
                 'email' => $_POST['email'],
-                'password' => sha1($_POST['password']),
+                'password' => sha1($_POST['password']), // Hash password for security
                 'address' => $_POST['address'],
                 'created_date' =>  $current_date
             );
+
+            // Register the new user using the user model
             $result = $this->user_model->registerUser($data);
+
+            // Check if the user was successfully added
             if ($result) {
+                // If successful, load 'manage_users' view with success message
                 $data = array(
                     'success' => 'User Added Successfully'
                 );
                 $this->load->view('manage_users', $data);
             } else {
+                // If unsuccessful (e.g., email already exists), reload 'add_users' view with error message
                 $data = array(
                     'error' => 'User Exist with this Email. Please try again'
                 );
@@ -378,6 +414,7 @@ class Login extends CI_Controller
             }
         }
     }
+
 
     public function editUsers($id)
     {
@@ -968,20 +1005,24 @@ class Login extends CI_Controller
     }
     public function checkSessionExist()
     {
+        // checking if the 'userinfo' session data exists
         if (!$this->session->has_userdata('userinfo')) {
+            // if session data not exists, error message and redirect to login
             $this->session->set_flashdata('error', 'Please login first to access the page');
             redirect('login/userlogin');
         } else {
+            // if session data exists, return true to indicate session is validated
             return true;
-        }
-        if (!$this->session->has_userdata('userinfo')) {
         }
     }
 
     public function logout()
     {
+        // Unset the 'userinfo' session data to log the user out
         $this->session->unset_userdata('userinfo');
+        // Set a success message indicate logout was successful
         $this->session->set_flashdata('success', 'Logout Success');
+        // redirect back to login
         redirect('login/userlogin');
     }
 }

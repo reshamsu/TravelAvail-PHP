@@ -3,60 +3,80 @@
 class User_model extends CI_Model
 {
 
-    // method to register user
-    public function registerUser($data)
-    {
-        $query = $this->db->select('*')
-            ->where('email', $data['email'])
-            ->get('user_tbl');
-        if ($query->num_rows() == 1) {
-            return false;
-        } else {
-            $this->db->insert('user_tbl', $data);
-            return true;
-        }
+// Method to register a new user
+public function registerUser($data)
+{
+    // Check if a user with the provided email already exists
+    $query = $this->db->select('*')
+        ->where('email', $data['email'])
+        ->get('user_tbl');
+    
+    // If a user with the given email is found, registration fails
+    if ($query->num_rows() == 1) {
+        return false; // Email already exists, return false
+    } else {
+        // No existing user with the email, proceed to insert the new user record
+        $this->db->insert('user_tbl', $data);
+        return true; // User successfully registered, return true
     }
+}
+
 
     public function loginCheck($data)
     {
         $condition = "email='{$data['email']}' && password='{$data['password']}'";
+
+        // query for database to find a user matching provided email and password
         $query = $this->db->select('*')
             ->where($condition)
             ->get('user_tbl');
+
+        // check if the matching user was found     
         if ($query->num_rows() == 1) {
-            return true;
+            return true; // user exists with matching information
         } else {
-            return false;
+            return false; // user does not exist, incorrect credentials
         }
     }
 
     public function getUserData($data)
     {
+        // Construct the condition to match the user's email
         $condition = "email='{$data['email']}'";
+
+        // query the database to retrieve the user's data based on the email
         $query = $this->db->select('*')
             ->where($condition)
             ->get('user_tbl');
+
+        // check if exactly one user was found
         if ($query->num_rows() == 1) {
-            return $query->result();
+            return $query->result(); // user found with provided email
         } else {
-            return false;
+            return false; // no user found with provided email 
         }
     }
 
     public function getUserDataByID($id)
     {
+        // Define the condition to search for the user with the specific ID
         $condition = "id='{$id}'";
+
+        // Perform a query to select all columns from 'user_tbl' where the ID matches
         $query = $this->db->select('*')
             ->where($condition)
             ->get('user_tbl');
-        //echo $this->db->last_query();
-        // return $query->result();
+
+        // Check if the query returns exactly one row
         if ($query->num_rows() == 1) {
+            // If exactly one row is found, return the result
             return $query->result();
         } else {
+            // If no rows or more than one row is found, return false
             return false;
         }
     }
+
 
     public function updateProfile($data)
     {
@@ -82,7 +102,10 @@ class User_model extends CI_Model
 
     public function Updateusers($data)
     {
+        // Define the condition to identify which user record to update
         $condition = "id  ='{$data['id']}'";
+
+        // Set the fields to be updated with new values from the $data array
         $this->db->set('username', $data['username']);
         $this->db->set('first_name', $data['first_name']);
         $this->db->set('last_name', $data['last_name']);
@@ -90,17 +113,29 @@ class User_model extends CI_Model
         $this->db->set('password', $data['password']);
         $this->db->set('address', $data['address']);
         $this->db->set('role', $data['role']);
+
+        // Specify the condition to match the record to be updated
         $this->db->where($condition);
+
+        // Perform the update operation on 'user_tbl'
         $this->db->update('user_tbl');
+
+        // Output the last executed SQL query for debugging purposes
         echo $this->db->last_query();
+
+        // Check how many rows were affected by the update
         if ($this->db->affected_rows() == 1) {
+            // Return 1 if exactly one row was updated
             return (1);
         } else if ($this->db->affected_rows() == 0) {
+            // Return 0 if no rows were updated (could be due to no changes or record not found)
             return (0);
         } else {
+            // Return -1 for unexpected results or errors
             return (-1);
         }
     }
+
 
     public function getAllUsers()
     {
@@ -198,44 +233,61 @@ class User_model extends CI_Model
         $query = $this->db->select('*')
             ->where('user_id', $data)
             ->get('booking_tbl');
+
+        //fetch the result set from the query execution
         $result = $query->result();
+
+        //iterate over each record in the result set
         foreach ($result as $key => $value) {
 
+            //extracts the flight, hotel, car rental, and booking IDs, as we ll as the booking status
             $flight_id = $value->flight_id;
             $hotel_id = $value->hotel_id;
             $carrental_id = $value->carrental_id;
             $booking_id = $value->id;
             $status = $value->status;
 
-            if ($flight_id != 0) { 
+            //check if the booking is for a flight
+            if ($flight_id != 0) {
+                //retrieve flight details from the 'flight_tbl' table based on flight_id
                 $query = $this->db->select('*')
                     ->where('id', $flight_id)
                     ->get('flight_tbl');
                 $result_flight = $query->result();
+
+                //store the flight details and booking status in the $managebooking array
                 $managebooking[$booking_id] = array($result_flight[0], 'status' => $status);
 
+                //check if the booking is for a hotel
             } else if ($hotel_id != 0) {
+                //retrieve hotel details from the 'hotel_tbl' table based on hotel_id 
                 $query = $this->db->select('*')
                     ->where('id', $hotel_id)
                     ->get('hotel_tbl');
                 $result_hotel = $query->result();
+                //store the hotel details and booking status in the $managebooking array
                 $managebooking[$booking_id] = array($result_hotel[0], 'status' => $status);
-
+                //check if the booking is for a car rental
             } else if ($carrental_id != 0) {
+                //retrieve car rental details from the 'carrental_tbl' tabble based on carrental_id
                 $query = $this->db->select('*')
                     ->where('id', $carrental_id)
                     ->get('carrental_tbl');
                 $result_carrental = $query->result();
+                //store the car rental details and booking status in the $managebooking array
                 $managebooking[$booking_id] = array($result_carrental[0], 'status' => $status);
-
+                //retrieve booking status from the 'booking_tbl' table
             } else if ($status != 0) {
+                //retrieve booking status from the 'booking_tbl' table
                 $query = $this->db->select('*')
                     ->where('id', $data)
                     ->get('booking_tbl');
                 $result_status = $query->result();
+                //store the booking status in the $managebooking array
                 $managebooking[$booking_id] = array($result_status[0], $status);
             }
         }
+        //return the array containing all managed bookings
         return $managebooking;
     }
 

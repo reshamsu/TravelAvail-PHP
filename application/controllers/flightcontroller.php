@@ -49,7 +49,7 @@ class FlightController extends CI_Controller
                 'end_date' => $end_date,
                 'people' => $people,
             );
-            
+
             if ($this->session->has_userdata('search_data')) {
                 //echo "found session";
                 $this->session->unset_userdata('search_data');
@@ -85,6 +85,7 @@ class FlightController extends CI_Controller
 
     public function uploadFlights()
     {
+        //set validation rules for each form field
         $this->form_validation->set_rules('from_location', 'From Location', 'required');
         $this->form_validation->set_rules('to_location', 'To Location', 'required');
         $this->form_validation->set_rules('location_code1', 'Location Code 1', 'required');
@@ -100,47 +101,45 @@ class FlightController extends CI_Controller
         $this->form_validation->set_rules('location_info', 'Location Info', 'required');
         $this->form_validation->set_rules('airline_title', 'Airline Title', 'required');
 
+        // check if the form validation fails
         if ($this->form_validation->run() == FALSE) {
+            // load the view with validation errors if the form data is invalid
             $this->load->view('add_booking_item/manage_airlines.php');
         } else {
+            // obtains the current date for record creation
             $current_date = date('Y-m-d');
-            // print_r($_FILES);
+            // prepare the file upload configuration
             $files[] = $_FILES["userfile1"];
             $files[] = $_FILES["userfile2"];
-
+            // generate new names for the files to prevent name conflicts
             $new_name[] = time() . $_FILES["userfile1"]['name'];
             $new_name[] = time() . $_FILES["userfile2"]['name'];
-
-            // print_r($new_name);
             $fileSelector = 0;
+            // loop through each file uploading
             foreach ($files as $key => $file) {
-
-                // print_r($file);
+                // set the file details for upload library
                 $_FILES['file']['name']     = $file['name'];
                 $_FILES['file']['type']     = $file['type'];
                 $_FILES['file']['tmp_name'] = $file['tmp_name'];
                 $_FILES['file']['error']     = $file['error'];
                 $_FILES['file']['size']     = $file['size'];
 
-                // print_r($_FILES);
-                // echo $fileNewName;
+                // configure upload setting
                 $config = array(
                     'upload_path' => './uploads/image/flight',
                     'allowed_types' => "gif|jpg|png|jpeg|pdf",
                     'overwrite' => TRUE,
                     'max_size' => "2048000",
                     'file_name' => $new_name[$fileSelector],
-
                 );
                 $fileSelector++;
+                // load and initialize the upload library with the configuration
                 $this->load->library('upload', $config);
                 $this->upload->initialize($config);
+                // perform the file upload
                 if ($this->upload->do_upload('file')) {
+                    // get upload data if successful
                     $data = array('upload_data' => $this->upload->data());
-
-                    //print_r($data);
-                } else {
-                    echo $this->upload->display_errors();
                 }
             }
             $data = array(
@@ -163,60 +162,20 @@ class FlightController extends CI_Controller
                 'airline_img2' => $new_name[1],
                 'created_date' =>  $current_date
             );
-
+            // Insert the data into the database using the model
             $result = $this->user_model->addAirlines($data);
+            // Check if the insertion was successful and load the appropriate view
             if ($result) {
                 $data = array(
                     'success' => 'Airline added Successfully'
                 );
                 $this->load->view('add_booking_item/manage_airlines', $data);
-                } else {
-                    $data = array(
-                        'error' => 'Airline Exist. Please try again'
-                    );
-                    $this->load->view('add_booking_item/manage_airlines', $data);
+            } else {
+                $data = array(
+                    'error' => 'Airline Exist. Please try again'
+                );
+                $this->load->view('add_booking_item/manage_airlines', $data);
             }
-
-            // $this->load->library('upload', $config);
-            // $this->upload->initialize($config);
-
-            // if ($this->upload->do_upload('userfile1')) {
-            //     if ($this->upload->do_upload('userfile2')) {
-            //         // Both files uploaded successfully
-
-            //         $data = array(
-            //             'flight_id' => NULL,
-            //             'from_location' => $_POST['from_location'],
-            //             'to_location' => $_POST['to_location'],
-            //             'from_info' => $_POST['from_info'],
-            //             'to_info' => $_POST['to_info'],
-            //             'destination_date' => $_POST['destination_date'],
-            //             'no_of_hours' => $_POST['no_of_hours'],
-            //             'trip_fare' => $_POST['trip_fare'],
-            //             'airline_title' => $_POST['airline_title'],
-            //             'airline_img1' => $new_name1,
-            //             'airline_img2' => $new_name2,
-            //             'created_date' =>  $current_date
-            //         );
-
-            //         $result = $this->user_model->addAirlines($data);
-
-            //         if ($result) {
-            //             $data = array(
-            //                 'success' => 'Airline added Successfully'
-            //             );
-            //             $this->load->view('add_booking_item/manage_airlines', $data);
-            //         } else {
-            //             $data = array(
-            //                 'error' => 'Airline Exist. Please try again'
-            //             );
-            //             $this->load->view('add_booking_item/manage_airlines', $data);
-            //         }
-            //     } else {
-            //         $error = array('error' => $this->upload->display_errors());
-            //         print_r($error);
-            //     }
-            // }
         }
     }
 }

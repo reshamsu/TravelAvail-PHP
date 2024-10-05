@@ -94,15 +94,15 @@
             <a href="<?php echo base_url() . '/' ?>" style="display: flex; align-items: center; width: 30%;"><img src="<?php echo base_url() . '/assets/ta-logo-4.png' ?>" alt="logo" class="logo" style="width: 80%;"></a>
 
             <nav>
-                <a href="<?php echo base_url() . '/' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; border-bottom: 2px solid var(--blue); border-radius: 2.6px;"><i class="fa-solid fa-compass" style="color: var(--blue);"></i> Home</a>
-                <a href="<?php echo base_url() . '/flightController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none">Flights</a>
-                <a href="<?php echo base_url() . '/hotelController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none;">Hotels</a>
-                <a href="<?php echo base_url() . '/carrentalController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none;">Car Rentals</a>
+                <a href="<?php echo base_url() . '/' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; font-size: 16px; border-bottom: 2.6px solid #fff; border-radius: 2.6px;">Home</a>
+                <a href="<?php echo base_url() . '/flightController' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; font-size: 16px; background: none; border: none">Flights</a>
+                <a href="<?php echo base_url() . '/hotelController' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; font-size: 16px; background: none; border: none;">Hotels</a>
+                <a href="<?php echo base_url() . '/carrentalController' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; font-size: 16px;background: none; border: none;">Car Rentals</a>
             </nav>
         </div>
 
         <span class="navbar-text" style="display: flex; align-items: center; justify-content: end; padding: 0;">
-            <a href="<?php echo base_url() . '/currency' ?>" class="btn btn-dark" id="" style="margin-right: 6px; background: none; border: none">USD</a>
+            <a href="<?php echo base_url() . '/currency' ?>" class="btn btn-dark" id="" style="margin-right: 6px; border: none; font-size: 16px; background: none; border: none">USD</a>
             <a href="<?php echo base_url() . '/login/userlogin' ?>" class="btn btn-primary" id="loginButton">Sign in</a>
         </span>
     </header>

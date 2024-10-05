@@ -97,7 +97,7 @@
         </span>
     </header>
 
-    <div class="container" style="min-height: 64vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+    <div class="container" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
 
         <?php
         // Check if the 'text' parameter is set in the URL

@@ -20,21 +20,52 @@
 </head>
 
 <body>
+
+<style>
+    header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 12px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  box-shadow: none;
+}
+
+    .tab:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        text-decoration: none;
+    }
+
+    nav a.btn.btn-dark {
+        display: flex;
+        background: none;
+        align-items: center;
+    }
+</style>
+
+<body>
     <header>
         <div class="" style="display: flex; justify-content: space-between; width: 66%;">
-            <a href="<?php echo base_url() . '/' ?>" style="display: flex; align-items: center; width: 30%;"><img src="<?php echo base_url() . '/assets/ta-logo-2.png' ?>" alt="logo" class="logo" style="width: 63%;"></a>
+            <a href="<?php echo base_url() . '/' ?>" style="display: flex; align-items: center; width: 30%;"><img src="<?php echo base_url() . '/assets/ta-logo-4.png' ?>" alt="logo" class="logo" style="width: 80%;"></a>
 
             <nav>
-                <a href="<?php echo base_url() . '/' ?>" class="btn btn-light" style="margin-right: 6px; background: #eef;"><i class="fa-solid fa-compass" style="margin-right: 4px; font-size: 17px; color: var(--blue);"></i> Home</a>
-                <a href="<?php echo base_url() . '/flightController' ?>" class="btn btn-light" style="margin-right: 6px; background: none; border: none">Flights</a>
-                <a href="<?php echo base_url() . '/HotelController' ?>" class="btn btn-light" style="margin-right: 6px; background: none; border: none;">Hotels</a>
-                <a href="<?php echo base_url() . '/CarrentalController' ?>" class="btn btn-light" style="margin-right: 6px; background: none; border: none;">Car Rentals</a>
+                <a href="<?php echo base_url() . '/' ?>" class="btn btn-dark" style="margin-right: 6px; border: none; border-bottom: 2px solid var(--blue); border-radius: 2.6px;"><i class="fa-solid fa-compass" style="color: var(--blue);"></i> Home</a>
+                <a href="<?php echo base_url() . '/flightController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none">Flights</a>
+                <a href="<?php echo base_url() . '/hotelController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none;">Hotels</a>
+                <a href="<?php echo base_url() . '/carrentalController' ?>" class="btn btn-dark" style="margin-right: 6px; background: none; border: none;">Car Rentals</a>
             </nav>
         </div>
 
         <span class="navbar-text" style="display: flex; align-items: center; justify-content: end; padding: 0;">
-            <a href="<?php echo base_url() . '/currency' ?>" class="btn btn-light" id="" style="margin-right: 6px; background: none; border: none">USD</a>
-            <a href="<?php echo base_url() . '/login/userlogin' ?>" class="btn btn-dark" id="loginButton">Sign in</a>
+            <a href="<?php echo base_url() . '/currency' ?>" class="btn btn-dark" id="" style="margin-right: 6px; background: none; border: none">USD</a>
+            <a href="<?php echo base_url() . '/login/userlogin' ?>" class="btn btn-primary" id="loginButton">Sign in</a>
         </span>
     </header>
 
@@ -66,16 +97,16 @@
 
                         <form id="loginForm" method="post">
                             <div class="form-floating mb-3">
-                                <label for="floatingInput" style="font-weight: 600;">Email address</label>
+                                <label for="floatingInput" style="font-weight: 500;">Email address</label>
                                 <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Email" style="padding: 20px 4%; border: 2px solid #eee; border-radius: 6px;">
                             </div>
                             <div class="form-floating">
-                                <label for="floatingPassword" style="font-weight: 600;">Password</label>
+                                <label for="floatingPassword" style="font-weight: 500;">Password</label>
                                 <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" style="padding: 20px 4%; border: 2px solid #eee; border-radius: 6px;">
                             </div>
                             <div class="form-group" style="display: flex; align-items: center; flex-direction: column; margin: 16px;">
                                 <input class="btn btn-primary" type="submit" name="submit" value="Continue" style="width: 100%; border-radius: 12px;">
-                                <p style="text-align: center; border-top: 2px solid #eee; font-weight: 500; padding-top: 14px; margin-top: 14px; margin-bottom: 0;"><a href="<?php echo base_url() . 'login/registerSubmit' ?>" style="font-weight: 600; color: var(--blue);">Sign Up</a> to Explore the Best of Travel'Avail</p>
+                                <p style="text-align: center; border-top: 2px solid #eee; font-weight: 500; padding-top: 14px; margin-top: 14px; margin-bottom: 0;"><a href="<?php echo base_url() . 'login/registerSubmit' ?>" style="font-weight: 500; color: var(--blue);">Sign Up</a> to Explore the Best of Travel'Avail</p>
                             </div>
                             <?php echo form_close(); ?>
                         </form>

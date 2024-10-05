@@ -18,7 +18,7 @@
   </div>
 
   <span class="navbar-text" style="display: flex; align-items: center; justify-content: end; padding: 0;">
-    <a href="<?php echo base_url() . '/currency' ?>" class="tab" id="" style="margin-right: 12px; font-size: 16px; color: #222; font-weight: 600; padding: 8px 16px; border-radius: 10px;">USD</a>
+    <a href="<?php echo base_url() . '/currency' ?>" class="tab" id="" style="margin-right: 12px; font-size: 16px; color: #222; font-weight: 500; padding: 8px 16px; border-radius: 10px;">USD</a>
     <a href="<?php echo base_url() . '/login/userlogin' . $userId ?>" class="btn btn-primary" id="loginButton" style="border-radius: 10px;">Sign in</a>
   </span>
 </header>

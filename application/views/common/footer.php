@@ -33,6 +33,7 @@
         </div> -->
 
 <footer>
+     <!-- Footer container to center and constrain footer content -->
     <div class="container">
         <div class="f3">
             <div class="content">

@@ -18,7 +18,7 @@
             // print_r($value->id);
             $userId = $value->id;
             echo "<div class=''>";
-            echo "<p style='margin: 0; font-weight: 800;'>$value->first_name $value->last_name</p>";
+            echo "<p style='margin: 0; font-weight: 600;'>$value->first_name $value->last_name</p>";
             echo "<p style='font-size: 12px; margin: 0; text-align: end'>$value->role</p>";
             echo "</div>";
         }
@@ -30,7 +30,7 @@
         </div> -->
 
         <div class=''>
-            <p style='margin: 0; font-weight: 800;'>John Doe</p>
+            <p style='margin: 0; font-weight: 600;'>John Doe</p>
             <p style='font-size: 12px; margin: 0; text-align: end'>User</p>
         </div>
 
